@@ -23,6 +23,21 @@ output "config_ui_service_name" {
   value       = aws_ecs_service.config_ui.name
 }
 
+output "devlake_task_definition_arn" {
+  description = "ARN of the DevLake task definition"
+  value       = aws_ecs_task_definition.devlake.arn
+}
+
+output "grafana_task_definition_arn" {
+  description = "ARN of the Grafana task definition"
+  value       = aws_ecs_task_definition.grafana.arn
+}
+
+output "config_ui_task_definition_arn" {
+  description = "ARN of the Config UI task definition"
+  value       = aws_ecs_task_definition.config_ui.arn
+}
+
 output "devlake_log_group_name" {
   description = "Name of the DevLake CloudWatch log group"
   value       = aws_cloudwatch_log_group.devlake.name

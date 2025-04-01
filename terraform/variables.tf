@@ -22,6 +22,11 @@ variable "private_subnet_name_prefix" {
   type        = string
 }
 
+variable "public_subnet_name_prefix" {
+  description = "Prefix for public subnet names"
+  type        = string
+}
+
 variable "hosted_zone_name" {
   description = "Name of the Route53 hosted zone"
   type        = string

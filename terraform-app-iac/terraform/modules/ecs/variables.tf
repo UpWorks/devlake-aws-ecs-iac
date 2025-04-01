@@ -3,13 +3,18 @@ variable "environment" {
   type        = string
 }
 
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+}
+
 variable "private_subnet_ids" {
   description = "List of private subnet IDs"
   type        = list(string)
 }
 
 variable "ecs_tasks_security_group_id" {
-  description = "ID of the security group for ECS tasks"
+  description = "Security group ID for ECS tasks"
   type        = string
 }
 
@@ -22,18 +27,66 @@ variable "container_ports" {
   }))
 }
 
-variable "devlake_task_definition_arn" {
-  description = "ARN of the DevLake task definition"
+variable "container_resources" {
+  description = "Resource configurations for containers"
+  type = map(object({
+    cpu    = number
+    memory = number
+  }))
+}
+
+variable "ecs_execution_role_arn" {
+  description = "ARN of the ECS execution role"
   type        = string
 }
 
-variable "grafana_task_definition_arn" {
-  description = "ARN of the Grafana task definition"
+variable "ecs_task_role_arn" {
+  description = "ARN of the ECS task role"
   type        = string
 }
 
-variable "config_ui_task_definition_arn" {
-  description = "ARN of the Config UI task definition"
+variable "hosted_zone_name" {
+  description = "Name of the Route53 hosted zone"
+  type        = string
+}
+
+variable "devlake_image" {
+  description = "Docker image for DevLake service"
+  type        = string
+}
+
+variable "grafana_image" {
+  description = "Docker image for Grafana service"
+  type        = string
+}
+
+variable "config_ui_image" {
+  description = "Docker image for Config UI service"
+  type        = string
+}
+
+variable "db_username" {
+  description = "Database username"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+}
+
+variable "db_host" {
+  description = "Database host"
+  type        = string
+}
+
+variable "db_port" {
+  description = "Database port"
+  type        = string
+}
+
+variable "db_name" {
+  description = "Database name"
   type        = string
 }
 

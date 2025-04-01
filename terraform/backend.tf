@@ -10,7 +10,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "devlake"
     workspaces {
-      name = "devlake-aws-ecs"
+      name = "devlake-aws-ecs-base"
     }
   }
 }
