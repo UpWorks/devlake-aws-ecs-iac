@@ -188,6 +188,8 @@ resource "aws_ecs_service" "devlake" {
     container_port   = var.container_ports.devlake.container_port
   }
 
+  depends_on = [aws_ecs_task_definition.devlake]
+
   tags = {
     Environment = var.environment
     Project     = "devlake"
@@ -214,6 +216,8 @@ resource "aws_ecs_service" "grafana" {
     container_port   = var.container_ports.grafana.container_port
   }
 
+  depends_on = [aws_ecs_task_definition.grafana]
+
   tags = {
     Environment = var.environment
     Project     = "devlake"
@@ -239,6 +243,8 @@ resource "aws_ecs_service" "config_ui" {
     container_name   = "config-ui"
     container_port   = var.container_ports.config_ui.container_port
   }
+
+  depends_on = [aws_ecs_task_definition.config_ui]
 
   tags = {
     Environment = var.environment
