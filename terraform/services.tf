@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "devlake" {
   container_definitions = jsonencode([
     {
       name  = "devlake"
-      image = "${aws_ecr_repository.devlake.repository_url}:latest"
+      image = "${data.aws_ecr_repository.devlake.repository_url}:latest"
       portMappings = [
         {
           containerPort = 8080
@@ -43,6 +43,11 @@ resource "aws_ecs_task_definition" "devlake" {
       }
     }
   ])
+
+  depends_on = [
+    null_resource.validate_mysql_connection,
+    data.aws_ecr_repository.devlake
+  ]
 }
 
 # Grafana Task Definition
@@ -58,7 +63,7 @@ resource "aws_ecs_task_definition" "grafana" {
   container_definitions = jsonencode([
     {
       name  = "grafana"
-      image = "devlake.docker.scarf.sh/apache/devlake-dashboard:v1.0.2-beta7"
+      image = "${data.aws_ecr_repository.grafana.repository_url}:latest"
       portMappings = [
         {
           containerPort = 3000
@@ -102,6 +107,11 @@ resource "aws_ecs_task_definition" "grafana" {
       }
     }
   ])
+
+  depends_on = [
+    null_resource.validate_mysql_connection,
+    data.aws_ecr_repository.grafana
+  ]
 }
 
 # Config UI Task Definition
@@ -117,7 +127,7 @@ resource "aws_ecs_task_definition" "config_ui" {
   container_definitions = jsonencode([
     {
       name  = "config-ui"
-      image = "devlake.docker.scarf.sh/apache/devlake-config-ui:v1.0.2-beta7"
+      image = "${data.aws_ecr_repository.config_ui.repository_url}:latest"
       portMappings = [
         {
           containerPort = 4000
@@ -145,6 +155,10 @@ resource "aws_ecs_task_definition" "config_ui" {
       }
     }
   ])
+
+  depends_on = [
+    data.aws_ecr_repository.config_ui
+  ]
 }
 
 # ECS Services
