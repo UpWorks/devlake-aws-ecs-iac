@@ -22,6 +22,22 @@ variable "aws_region" {
   type        = string
 }
 
+# KMS Key Variables
+variable "cloudwatch_kms_key_id" {
+  description = "KMS key ID for CloudWatch Logs encryption"
+  type        = string
+}
+
+variable "secrets_kms_key_id" {
+  description = "KMS key ID for Secrets Manager encryption"
+  type        = string
+}
+
+variable "ecr_kms_key_id" {
+  description = "KMS key ID for ECR repository encryption"
+  type        = string
+}
+
 # Variables for container images
 variable "devlake_ecr_repo" {
   description = "ECR repository URL for DevLake container"
@@ -79,15 +95,15 @@ locals {
 
 # Get ECR repository data
 data "aws_ecr_repository" "devlake" {
-  name = split("/", var.devlake_ecr_repo)[1]
+  name = "devlake/devlake"
 }
 
 data "aws_ecr_repository" "grafana" {
-  name = split("/", var.grafana_ecr_repo)[1]
+  name = "devlake-devlake-dashboard"
 }
 
 data "aws_ecr_repository" "config_ui" {
-  name = split("/", var.config_ui_ecr_repo)[1]
+  name = "devlake/config-ui"
 }
 
 # Validate Aurora MySQL connection
