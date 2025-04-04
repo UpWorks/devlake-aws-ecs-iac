@@ -32,13 +32,13 @@ resource "aws_route53_record" "devlake" {
 
 # Outputs
 output "devlake_url" {
-  value = "http://${aws_route53_record.devlake.name}"
+  value = "https://${aws_route53_record.devlake.name}"
 }
 
 output "grafana_url" {
-  value = "http://${aws_route53_record.devlake.name}/grafana"
+  value = "https://${aws_route53_record.devlake.name}/grafana"
 }
 
 output "config_ui_url" {
-  value = "http://${aws_route53_record.devlake.name}"
+  value = "https://${aws_route53_record.devlake.name}"
 } 
