@@ -217,4 +217,64 @@ resource "aws_ecr_repository" "config_ui" {
     encryption_type = "KMS"
     kms_key         = var.ecr_kms_key_id
   }
-} 
+}
+
+# ECS Task Role Policy
+resource "aws_iam_role_policy" "ecs_task_role_policy" {
+  name = "devlake-task-role-policy"
+  role = aws_iam_role.ecs_task_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = [data.aws_secretsmanager_secret.devlake.arn]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt",
+          "kms:DescribeKey"
+        ]
+        Resource = [var.secrets_kms_key_id]
+      }
+    ]
+  })
+}
+
+# ECS Task Execution Role KMS Policy
+resource "aws_iam_role_policy" "ecs_task_execution_role_kms_policy" {
+  name = "devlake-task-execution-role-kms-policy"
+  role = aws_iam_role.ecs_task_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt",
+          "kms:DescribeKey"
+        ]
+        Resource = [var.secrets_kms_key_id]
+      }
+    ]
+  })
+}
+
+# Validate Secrets Manager secret exists
+resource "null_resource" "validate_secret" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      aws secretsmanager describe-secret \
+        --secret-id ${data.aws_secretsmanager_secret.devlake.id} \
+        --region ${var.aws_region}
+    EOT
+  }
+}
+
+
