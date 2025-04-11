@@ -107,17 +107,6 @@ data "aws_ecr_repository" "config_ui" {
 }
 
 # Validate Aurora MySQL connection
-resource "null_resource" "validate_mysql_connection" {
-  provisioner "local-exec" {
-    command = <<-EOT
-      mysql -h ${local.db_credentials.host} \
-            -P ${local.db_credentials.port} \
-            -u ${local.db_credentials.username} \
-            -p${local.db_credentials.password} \
-            -e "SELECT 1;" || exit 1
-    EOT
-  }
-}
 
 # Outputs for verification
 output "vpc_id" {

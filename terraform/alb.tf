@@ -11,7 +11,7 @@ resource "aws_lb_target_group" "devlake" {
     healthy_threshold   = 2
     interval            = 30
     matcher            = "200"
-    path               = "/ping"
+    path               = "/api/status"
     port               = "traffic-port"
     protocol           = "HTTP"
     timeout            = 5
@@ -145,21 +145,28 @@ resource "aws_security_group" "alb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/0"]
   }
 }
 
